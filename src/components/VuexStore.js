@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { signInWithEmailAndPassword, updateProfile, deleteUser } from "firebase/auth";
+import { signInWithEmailAndPassword, updateProfile, deleteUser, updateEmail } from "firebase/auth";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth } from '../firebase/config'
 
@@ -20,7 +20,7 @@ export default new Vuex.Store({
     SET_USER(state, { nombre, contraseña }) {
       state.user = { nombre, contraseña };
     },
-    SET_USER_CREDENTIALS(state, credentials) { // Nueva mutación para actualizar las credenciales
+    SET_USER_CREDENTIALS(state, credentials) {
       state.userCredentials = credentials;
     },
     AddFriends(state) {
@@ -28,6 +28,9 @@ export default new Vuex.Store({
     },
     UPDATE_USER(state, CurrentUse_NewName) {
       state.updateUser = CurrentUse_NewName;
+    },
+    UPDATE_EMAIL(state, Email) {
+      state.UpdateEmail = Email;
     }
   },
   actions: {
@@ -59,6 +62,9 @@ export default new Vuex.Store({
       }
     },
     UpdateUser({ commit }, { NewName }) {
+      if (NewName === '') {
+        return false;
+      }
       commit('UPDATE_USER', { NewName });
       const user = auth.currentUser;
       updateProfile(user, {
@@ -70,19 +76,28 @@ export default new Vuex.Store({
     DelateAccount() {
       const user = auth.currentUser;
       deleteUser(user).then((suffec) => {
-        console.log('user deleted correctly ' , suffec);
+        console.log('user deleted correctly ', suffec);
       })
+        .catch((error) => {
+          console.error(error);
+        })
+    },
+    XUpdateEmail({ commit }, { ParameterVuex }) {
+      updateEmail(auth.currentUser, ParameterVuex)
+        .then((promisse) => {
+          commit('UPDATE_EMAIL', { ParameterVuex });
+          console.log(promisse)
+        })
         .catch((error) => {
           console.error(error);
         })
     },
     logOut({ commit }) {
       commit('setLoggedIn', false);
-      commit('SET_USER_CREDENTIALS', null); // Limpiar credenciales en el estado
+      commit('SET_USER_CREDENTIALS', null);
     }
   },
   getters: {
-    // Getter para acceder a las credenciales desde otros componentes
     userCredentials: (state) => state.userCredentials
   }
 })

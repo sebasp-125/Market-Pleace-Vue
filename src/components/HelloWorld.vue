@@ -18,7 +18,6 @@
         </b-col>
       </b-row>
     <sexoCart/>
-
     </div>
   </div>
 </template>
@@ -27,8 +26,8 @@
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import store from '../components/VuexStore';
-import CarruLanding_Page from '../modules/CarruLanding_Page.vue'
-import sexoCart from '../modules/sexoCart.vue'
+import CarruLanding_Page from '../modules/CarruLanding_Page.vue';
+import sexoCart from '../modules/sexoCart.vue';
 
 export default {
   name: 'ProductList',
@@ -42,7 +41,7 @@ export default {
       Es_IsArray: [],
       IsArray: [],
       StatusUser: ''
-    }
+    };
   },
   computed: {
     loggedIn() {
@@ -71,10 +70,12 @@ export default {
       console.warn("Product added to cart ", this.Es_IsArray);
     },
     checkout() {
-      this.$router.push({ path: '/Products', query: { products: this.Es_IsArray } });
-    },
+  const productIds = this.Es_IsArray.map(product => product.id);
+  this.$router.push({ path: '/Products', query: { sent: JSON.stringify(productIds) } });
+},
+
     status() {
-      store.state.loggedIn
+      store.state.loggedIn;
       this.StatusUser = store.state.loggedIn;
     }
   },
@@ -82,7 +83,7 @@ export default {
     this.CallDataBase();
     this.status();
   }
-}
+};
 </script>
 
 <style scoped>
@@ -93,7 +94,6 @@ export default {
 .Home {
   padding: 20px;
   margin: 0 auto;
-  /* Center the container */
 }
 
 .b-col {
@@ -102,26 +102,21 @@ export default {
 
 .b-card.small-card {
   max-width: 5rem;
-  /* Reduce the width of the cards */
 }
 
 .b-card-text {
   font-size: 0.8rem;
-  /* Optionally reduce the font size */
 }
 
 .b-card-title {
   font-size: 1rem;
-  /* Optionally reduce the font size for the title */
 }
 
 .b-button {
   font-size: 0.8rem;
-  /* Optionally reduce the button size */
 }
 
 .mb-2 {
   margin-bottom: 10px;
-  /* Optionally adjust the bottom margin */
 }
 </style>
