@@ -3,7 +3,6 @@
         <h2>Log In Security</h2>
         <form @submit.prevent="logIn">
             <div>
-
                 <label for="username">Username:</label>
                 <input type="text" v-model="username" id="username" required>
             </div>
@@ -18,9 +17,6 @@
             <button class="googlebtn" @click.prevent="GooglePop">Google</button>
         </div>
     </div>
-
-
-
 </template>
 
 <script>

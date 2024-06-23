@@ -27,13 +27,13 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import store from '../components/VuexStore';
 import CarruLanding_Page from '../modules/CarruLanding_Page.vue';
-import sexoCart from '../modules/sexoCart.vue';
+// import sexoCart from '../modules/sexoCart.vue';
 
 export default {
   name: 'ProductList',
   components: {
     CarruLanding_Page,
-    sexoCart
+    // sexoCart
   },
   data() {
     return {

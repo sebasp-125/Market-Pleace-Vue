@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { signInWithEmailAndPassword, updateProfile, deleteUser, updateEmail } from "firebase/auth";
+import { signInWithEmailAndPassword, updateProfile, deleteUser, updateEmail, sendEmailVerification, updatePassword } from "firebase/auth";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth } from '../firebase/config'
 
@@ -61,6 +61,7 @@ export default new Vuex.Store({
         return false;
       }
     },
+    //Edita ok actualizar el perfil del usuario post.
     UpdateUser({ commit }, { NewName }) {
       if (NewName === '') {
         return false;
@@ -73,20 +74,38 @@ export default new Vuex.Store({
         return true;
       })
     },
+    //Elima la cuenta por completo.
     DelateAccount() {
       const user = auth.currentUser;
-      deleteUser(user).then((suffec) => {
-        console.log('user deleted correctly ', suffec);
-      })
+      deleteUser(user)
+        .then((suffec) => {
+          console.log('user deleted correctly ', suffec);
+        })
         .catch((error) => {
           console.error(error);
         })
     },
+    //Edita el correo actual por uno nuevo, debe de estar autenticado
     XUpdateEmail({ commit }, { ParameterVuex }) {
       updateEmail(auth.currentUser, ParameterVuex)
         .then((promisse) => {
           commit('UPDATE_EMAIL', { ParameterVuex });
           console.log(promisse)
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+    },
+    //Mensaje de validacion. Envia un correo 
+    async EmailVerification() {
+      await sendEmailVerification(auth.currentUser);
+      return { status: true };
+    },
+    //Editar contraseña
+    UpdatePassword(newPassword) {
+      updatePassword(auth.currentUser, newPassword)
+        .then((promisse) => {
+          console.log("update successful ", promisse)
         })
         .catch((error) => {
           console.error(error);

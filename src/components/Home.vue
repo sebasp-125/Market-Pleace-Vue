@@ -27,7 +27,7 @@
       </b-navbar-nav>
     </b-navbar>
 
-    <b-navbar class="nav" type="dark">
+    <!-- <b-navbar class="nav" type="dark">
       <b-navbar-nav class="navbar-content">
         <b-navbar-brand class="text-sub-nav">Market - Pleace</b-navbar-brand>
         <b-navbar-brand class="text-sub-nav" v-if="ImageButton"
@@ -37,7 +37,7 @@
           <input type="text" placeholder="Search....">
         </b-navbar-brand>
       </b-navbar-nav>
-    </b-navbar>
+    </b-navbar> -->
 
     <b-navbar class="sub-nav-sex">
       <b-navbar-nav class="navbar-content">
@@ -50,6 +50,7 @@
 
     <!-- Main Content -->
     <HelloWorld />
+
   </div>
 </template>
 
@@ -60,7 +61,8 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'HHomes',
   components: {
-    HelloWorld
+    HelloWorld,
+
   },
   computed: {
     ...mapGetters(['userCredentials']),
